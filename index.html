@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Promedio de Edades</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-
+    <title>Calculadora de Promedio de Edad</title>
 </head>
-
 <body>
+    <h1>Calculadora de Promedio de Edad</h1>
+    <p>Ingrese las edades y haga clic en "Agregar Edad", "Buscar Persona" o "Calcular Promedio":</p>
+    <input type="number" id="edadInput" placeholder="Ingrese una edad">
+    <button id="agregar-persona">Agregar Persona</button>
+    <button id="buscar-persona">Buscar Persona</button>
+    <button id="calcular-promedio">Calcular Promedio</button>
+    <div id="personas-lista">
+        <ul>
+            <!-- Aquí se mostrarán las personas agregadas -->
+        </ul>
+    </div>
+    <p id="resultado-promedio"></p>
 
-    <div class="container">
-        <h1>Calculadora de Promedio de Edades</h1>
-
-        <h5>Este programa de ayudará a calcular el promedio de edad de las personas</h5>
-
-    <script src="jscript.js"></script>
+    <script> src="jscript.js"</script>
 </body>
 </html>
