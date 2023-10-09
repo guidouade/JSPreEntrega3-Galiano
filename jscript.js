@@ -1,28 +1,61 @@
 // Función para crear una persona
 function crearPersona(nombre, edad) {
-    return {
-        nombre: nombre,
-        edad: edad,
-    };
+  return {
+    nombre: nombre,
+    edad: edad,
+  };
 }
 
 // Array para almacenar las personas
-const personas = [];
+let personas = [];
 
-// Función para agregar una persona al array
+// Botón para agregar una persona
+const agregarPersonaBtn = document.getElementById('agregar-persona');
+agregarPersonaBtn.addEventListener('click', agregarPersona);
+
+// Botón para calcular el promedio
+const calcularPromedioBtn = document.getElementById('calcular-promedio');
+calcularPromedioBtn.addEventListener('click', calcularEdadPromedio);
+
+// Función para agregar una persona al array y al DOM
 function agregarPersona() {
-    let nombre = prompt("Ingresa el nombre de la persona:");
-    let edad = prompt("Ingresa la edad de la persona:");
-    edad = parseInt(edad);
+  let nombre = prompt("Ingresa el nombre de la persona:");
+  let edad = prompt("Ingresa la edad de la persona:");
+  edad = parseInt(edad);
+  if (!isNaN(edad) && edad >= 0) {
+    const persona = crearPersona(nombre, edad);
+    personas.push(persona);
 
-    if (!isNaN(edad) && edad >= 0) {
-        const persona = crearPersona(nombre, edad);
-        personas.push(persona); //Agrega a la persona a la lista de personas
-        alert("Persona agregada exitosamente.");
-    } else {
-        alert("Por favor, ingresa una edad válida.");
-    }
+    // Agregar la persona al DOM
+    const personasLista = document.getElementById('personas-lista').querySelector('ul');
+    const li = document.createElement('li');
+    li.textContent = `${persona.nombre} - Edad: ${persona.edad}`;
+    personasLista.appendChild(li);
+    guardarPersonasEnLocalStorage(); // Guardar en localStorage
+    alert("Persona agregada exitosamente.");
+  } else {
+    alert("Por favor, ingresa una edad válida.");
+  }
 }
+
+// Función para guardar la lista de personas en localStorage
+function guardarPersonasEnLocalStorage() {
+  localStorage.setItem('personas', JSON.stringify(personas));
+}
+
+// Función para cargar la lista de personas desde localStorage
+function cargarPersonasDesdeLocalStorage() {
+  const personasJSON = localStorage.getItem('personas');
+  if (personasJSON) {
+    personas = JSON.parse(personasJSON);
+    // Agregar las personas al DOM al cargar la página
+    const personasLista = document.getElementById('personas-lista').querySelector('ul');
+    personas.forEach(function (persona) {
+      const li = document.createElement('li');
+      li.textContent = `${persona.nombre} - Edad: ${persona.edad}`;
+      personasLista.appendChild(li);
+    });
+  }}
 
 //Función para buscar un nombre y eliminarlo de la lista
 function buscarNombre() {
@@ -52,46 +85,21 @@ function buscarNombre() {
     alert("No se ha encontrado a la persona que busca");
   }
 }
-      
+
 // Función para calcular el promedio de edades de las personas
 function calcularEdadPromedio() {
-    if (personas.length === 0) {
-        alert("No se han agregado personas.");
-    } else {
-        let sumaEdades = 0;
-
-        for (const persona of personas) {
-            sumaEdades += persona.edad; //Se agrega una edad al contador
-        }
-
-        const promedio = sumaEdades / personas.length; //Fórmula para calcular el promedio de edad
-        alert("El promedio de edades de las " + personas.length + " personas registradas es: " + promedio.toFixed(2));
+  if (personas.length === 0) {
+    alert("No se han agregado personas.");
+  } else {
+    let sumaEdades = 0;
+    for (const persona of personas) {
+      sumaEdades += persona.edad;
     }
+    const promedio = sumaEdades / personas.length;
+    const resultadoPromedio = document.getElementById('resultado-promedio');
+    resultadoPromedio.textContent = `El promedio de edades de las ${personas.length} personas registradas es: ${promedio.toFixed(2)}`;
+  }
 }
 
-// Llamamos a la función para comenzar el simulador
-alert("Este simulador te ayudará a calcular el promedio de edad de las personas");
-
-let ejecutarSimulador = true;
-
-while (ejecutarSimulador) {
-    let opcion = prompt("Seleccione una opción:\n1. Agregar persona\n2. Calcular edad promedio\n3. Buscar nombre\n4. Salir");
-
-    switch (opcion) {
-        case "1":
-            agregarPersona();
-            break;
-        case "2":
-            calcularEdadPromedio();
-            break;
-        case "3":
-            buscarNombre();
-            break;
-        case "4":
-            alert("Saliendo del simulador.");
-            ejecutarSimulador = false; // Cambia la variable a false para salir del bucle
-            break;
-        default:
-            alert("Opción inválida. Por favor, seleccione una opción válida.");
-    }
-}
+// Llamamos a la función para cargar la lista de personas al inicio
+cargarPersonasDesdeLocalStorage();
