@@ -19,8 +19,8 @@ function crearPersona(nombre, edad) {
   
   // Función para agregar una persona al array y al DOM
   function agregarPersona() {
-    let nombre = prompt("Ingresa el nombre de la persona:");
-    let edad = prompt("Ingresa la edad de la persona:");
+    let nombre = nombreInput;
+    let edad = edadInput;
     edad = parseInt(edad);
     if (!isNaN(edad) && edad >= 0) {
       const persona = crearPersona(nombre, edad);
